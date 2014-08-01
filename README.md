@@ -6,7 +6,7 @@ Some basic type checking for coffeescript (at runtime)
 How to use:
 
     add = T.def
-      in: TArray.of(TNumber)
+      in: [TNumber, TNumber]
       out: TNumber
       (x,y) -> x + y
 
