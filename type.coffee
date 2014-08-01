@@ -27,9 +27,9 @@ class T
               if T.match type.out, value
                 value
               else
-                {fail: "invalid output type", need:T.show(type.out), returned:value}
+                throw "invalid output type\n\tneed:#{T.show(type.out)}\n\treturned:#{T.show(value)}"
             else
-              {fail: "invalid input type", need:T.show(type.in), given:args}
+              throw "invalid input type\n\tneed: #{T.show(type.in)}\n\tgiven: #{T.show(args)}"
   @is_type: (e) -> false
   @show: (obj) ->
     if TArray.is_type(obj)
