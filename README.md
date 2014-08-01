@@ -5,16 +5,18 @@ Some basic type checking for coffeescript (at runtime)
 
 How to use:
 
+    T = require './type.coffee'
+
     add = T.def
-      in: [TNumber, TNumber]
-      out: TNumber,
+      in: [T.number, T.number]
+      out: T.number,
       (x,y) -> x + y
 
 You can do more complex things:
 
     make_bigrams = T.def
-      in: [TString, TArray.of({verb: TString, object: TString})]
-      out: TArray.of({v1:TString, o1:TString, v2:TString, o2:TString, count:TNumber}), 
+      in: [T.string, T.array.of({verb: T.string, object: T.string})]
+      out: T.array.of({v1:T.string, o1:T.string, v2:T.string, o2:T.string, count:T.number}),
       (filename, tuples) -> ...
 
 Inspired by contracts.coffee, among other things
