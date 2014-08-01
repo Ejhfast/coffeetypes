@@ -13,8 +13,8 @@ How to use:
 You can do more complex things:
 
     make_bigrams = T.def
-      in: {file: TString, data: TArray.of({verb: TString, object: TString, count: TNumber})}
+      in: [TString, TArray.of({verb: TString, object: TString})]
       out: TArray.of({v1:TString, o1:TString, v2:TString, o2:TString, count:TNumber}) 
-      (obj) -> ...
+      (filename, tuples) -> ...
 
 Inspired by contracts.coffee, among other things
