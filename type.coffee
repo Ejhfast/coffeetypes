@@ -76,53 +76,10 @@ class TArray extends T
       if e instanceof Array then true else false
   @show: () -> "TArray"
 
-# EXAMPLES
-
-# So add takes an Array of Numbers and returns a Number
-add = T.def
-  in: TArray.of(TNumber)
-  out: TNumber,
-  (x,y) -> x + y
-
-# And print_name takes an Object with name and age and returns a Number
-add_age = T.def
-  in: [{name:TString, age:TNumber}, {name:TString, age:TNumber}]
-  out: TNumber,
-  (o1,o2) -> o1.age + o2.age
-
-console.log "It's ok to add 3 to 4"
-console.log add(3,4)
-console.log "\nBut not 3 to 's'"
-console.log add(3,"s")
-console.log "\nWe can add two ages"
-console.log add_age({name:"Ethan Fast", age:24}, {name:"Eric Fast", age:22})
-console.log "\nBut that won't work if an age doesn't exist"
-console.log add_age({name:"Ethan Fast", age:24},{name:"Eric Fast"})
-
-# Testing the type checker...
-
-tests = [
-  T.match(TNumber, 2) is true,
-  T.match(TArray.of(TNumber), [1,2,3]) is true,
-  T.match({x:TNumber, y:TNumber}, {x:23,y:67}) is true,
-  T.match(
-    {name:TString, age:TNumber, data:TObject},
-    {name:"Ethan", age:24, data:{email:"ejhfast@gmail.com"}}) is true,
-  T.match(
-    TArray.of({name:TString, age:TNumber}),
-    [{name:"Ethan",age:24}, {name:"Eric",age:22}]) is true,
-  T.match(
-    TArray.of({name:TString, age:TNumber}),
-    [{gender:"male",age:24}, {gender:"male",age:22}]) is false,
-  T.match({gender:"male",age:TNumber}, {gender:"male", age:24}) is true,
-  T.match({gender:"male",age:TNumber}, {gender:"female", age:24}) is false,
-  T.match(TArray.of(TString), [1,2,3]) is false,
-  T.match({x:TString, y:TNumber}, {x:23,y:67}) is false,
-  T.match({x:TString, w:TNumber}, {x:23,y:67}) is false,
-  T.match(TArray, {one:1,two:2}) is false
-]
-
-if _.reduce(tests, ((x,y)-> x and y), true)
-  console.log("All tests pass.")
-else
-  console.log(tests)
+module.exports =
+  def: T.def
+  match: T.match
+  string: TString
+  number: TNumber
+  array: TArray
+  object: TObject
