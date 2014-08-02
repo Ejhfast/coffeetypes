@@ -6,7 +6,8 @@ Some basic type checking for coffeescript (at runtime)
 How to use:
 
 ***CS:***
-```T = require './type.coffee'
+```coffee
+T = require './type.coffee'
 
 add = T.def
   in: [T.number, T.number]
@@ -17,7 +18,8 @@ add = T.def
 Try to run something like:
 
 ***CS:***
-```add 3, "s"
+```coffee
+add 3, "s"
 ```
 
 And you get:
@@ -29,7 +31,8 @@ And you get:
 You can do more complex things:
 
 ***CS:***
-```word_in_set = T.def
+```coffee
+word_in_set = T.def
   in: [T.string]
   out: T.array.exactly([true, T.number]).or T.array.exactly([false, T.string])
   (word) ->
@@ -43,7 +46,8 @@ You can do more complex things:
 If you call:
 
 ***CS:***
-```word_in_set "what"
+```coffee
+word_in_set "what"
 ```
 
 You'll get the error:
