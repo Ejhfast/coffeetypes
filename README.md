@@ -5,16 +5,18 @@ Some basic type checking for coffeescript (at runtime)
 
 How to use:
 
-    T = require './type.coffee'
+```T = require './type.coffee'
 
-    add = T.def
-      in: [T.number, T.number]
-      out: T.number,
-      (x,y) -> x + y
+add = T.def
+  in: [T.number, T.number]
+  out: T.number,
+  (x,y) -> x + y
+```
 
 Try to run something like:
 
-    add 3, "s"
+```add 3, "s"
+```
 
 And you get:
 
@@ -24,19 +26,21 @@ And you get:
 
 You can do more complex things:
 
-    word_in_set = T.def
-      in: [T.string]
-      out: T.array.exactly([true, T.number]).or T.array.exactly([false, T.string])
-      (word) ->
-        set = {"book":100, "chair":200, "dog":600, "what":"s"}
-        if word in _.keys(set)
-          [true, set[word]]
-        else
-          [false, "not in set"]
+```word_in_set = T.def
+  in: [T.string]
+  out: T.array.exactly([true, T.number]).or T.array.exactly([false, T.string])
+  (word) ->
+    set = {"book":100, "chair":200, "dog":600, "what":"s"}
+    if word in _.keys(set)
+      [true, set[word]]
+    else
+      [false, "not in set"]
+```
 
 If you call:
 
-    word_in_set "what"
+```word_in_set "what"
+```
 
 You'll get the error:
 
