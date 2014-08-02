@@ -19,7 +19,7 @@ Try to run something like:
 And you get:
 
     invalid input type
-	     need: [TNumber,TNumber]
+	     need: [Number,Number]
 	     given: [3,s]
 
 You can do more complex things:
@@ -41,7 +41,7 @@ If you call:
 You'll get the error:
 
     invalid output type
-	     need:TArray.exactly([true,TNumber])
+	     need:TArray.exactly([true,Number])
 	     returned:[true,s]
 
 Inspired by contracts.coffee, among other projects

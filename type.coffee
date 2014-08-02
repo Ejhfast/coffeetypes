@@ -49,21 +49,21 @@ class T
 class TString extends T
   @is_type: (e) ->
     typeof(e) is "string"
-  @show: () -> "TString"
+  @show: () -> "String"
 
 class TAny extends T
   @is_type: (e) -> true
-  @show: () -> "TAny"
+  @show: () -> "Any"
 
 class TNumber extends T
   @is_type: (e) ->
     typeof(e) is "number"
-  @show: () -> "TNumber"
+  @show: () -> "Number"
 
 class TBool extends T
   @is_type: (e) ->
     typeof(e) is "boolean"
-  @show: () -> "TBool"
+  @show: () -> "Bool"
 
 class TObject extends T
   @has: (sub) ->
@@ -73,7 +73,7 @@ class TObject extends T
           _.every(sub, (v,k)-> T.match(v,e[k]))
         else
           false
-      @show: () -> "TObject.has(#{T.show(sub)})"
+      @show: () -> "Object.has(#{T.show(sub)})"
   @only: (sub) ->
     class extends TObject
       @is_type: (e) ->
@@ -85,11 +85,11 @@ class TObject extends T
             false
         else
           false
-      @show: () -> "TObject.only(#{T.show(sub)})"
+      @show: () -> "Object.only(#{T.show(sub)})"
   @is_type: (e) ->
     if typeof(e) is "object"
       if e instanceof Array then false else true
-  @show: () -> "TObject"
+  @show: () -> "Object"
 
 class TArray extends T
   # Optionally define the type of element in an array
@@ -101,7 +101,7 @@ class TArray extends T
           _.every(e, (x)->T.match(sub,x))
         else
           false
-      @show: () -> "TArray.of(#{T.show(sub)})"
+      @show: () -> "Array.of(#{T.show(sub)})"
   @exactly: (sub) ->
     class extends TArray
       @is_type: (e) ->
@@ -109,11 +109,11 @@ class TArray extends T
           _.every(_.zip(sub,e), ([x,y])->T.match(x,y))
         else
           false
-      @show: () -> "TArray.exactly(#{T.show(sub)})"
+      @show: () -> "Array.exactly(#{T.show(sub)})"
   @is_type: (e) ->
     if typeof(e) is "object"
       if e instanceof Array then true else false
-  @show: () -> "TArray"
+  @show: () -> "Array"
 
 module.exports =
   def: T.def
