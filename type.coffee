@@ -8,18 +8,21 @@ class T
     if TArray.is_type(t_obj)
       if t_obj.length == obj.length
         parts = _.zip(t_obj, obj)
-        try_parts = _.map(parts, (x)->(T.match(x[0],x[1])))
-        _.reduce(try_parts, ((x,y)->x and y), true)
+        _.every(parts, (x)->(T.match(x[0],x[1])))
       else
         false
     else if TObject.is_type(t_obj)
       t_lst = _.map(t_obj, (v,k) -> [v,k])
       o_lst = _.map(obj, (v,k) -> [v,k])
       T.match(t_lst, o_lst)
-    else if (TString.is_type(t_obj) or TNumber.is_type(t_obj))
+    else if (TString.is_type(t_obj) or TNumber.is_type(t_obj) or TBool.is_type(t_obj))
       t_obj is obj
     else
       t_obj.is_type(obj)
+  @or: (tobj) ->
+    class extends @
+      @is_type: (e) ->
+        super(e) or tobj.is_type(e)
   @def: (type, method) ->
           (args...) ->
             if T.match type.in, args
@@ -38,7 +41,7 @@ class T
       "{#{_.map(obj, (v,k) -> T.show(k)+":"+T.show(v))}}"
     else if TString.is_type(obj)
       obj
-    else if TNumber.is_type(obj)
+    else if TNumber.is_type(obj) or TBool.is_type(obj)
       obj.toString()
     else
       obj.show()
@@ -48,12 +51,41 @@ class TString extends T
     typeof(e) is "string"
   @show: () -> "TString"
 
+class TAny extends T
+  @is_type: (e) -> true
+  @show: () -> "TAny"
+
 class TNumber extends T
   @is_type: (e) ->
     typeof(e) is "number"
   @show: () -> "TNumber"
 
+class TBool extends T
+  @is_type: (e) ->
+    typeof(e) is "boolean"
+  @show: () -> "TBool"
+
 class TObject extends T
+  @has: (sub) ->
+    class extends TObject
+      @is_type: (e) ->
+        if super e
+          _.every(sub, (v,k)-> T.match(v,e[k]))
+        else
+          false
+      @show: () -> "TObject.has(#{T.show(sub)})"
+  @only: (sub) ->
+    class extends TObject
+      @is_type: (e) ->
+        if super e
+          [ks1, ks2] = [_.keys(sub),_.keys(e)]
+          if ks1.length is ks2.length and _.all(_.zip(ks1,ks2), ([x,y]) -> x is y)
+            _.every(sub, (v,k)-> T.match(v,e[k]))
+          else
+            false
+        else
+          false
+      @show: () -> "TObject.only(#{T.show(sub)})"
   @is_type: (e) ->
     if typeof(e) is "object"
       if e instanceof Array then false else true
@@ -66,11 +98,18 @@ class TArray extends T
     class extends TArray
       @is_type: (e) ->
         if super e
-          check_elements = _.map(e, (x)->T.match(sub,x))
-          _.reduce(check_elements, ((x,y)->x and y), true)
+          _.every(e, (x)->T.match(sub,x))
         else
           false
       @show: () -> "TArray.of(#{T.show(sub)})"
+  @exactly: (sub) ->
+    class extends TArray
+      @is_type: (e) ->
+        if super e
+          _.every(_.zip(sub,e), ([x,y])->T.match(x,y))
+        else
+          false
+      @show: () -> "TArray.exactly(#{T.show(sub)})"
   @is_type: (e) ->
     if typeof(e) is "object"
       if e instanceof Array then true else false
@@ -81,5 +120,7 @@ module.exports =
   match: T.match
   string: TString
   number: TNumber
+  bool: TBool
   array: TArray
+  any: TAny
   object: TObject

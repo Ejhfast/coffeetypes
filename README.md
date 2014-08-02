@@ -24,9 +24,24 @@ And you get:
 
 You can do more complex things:
 
-    make_bigrams = T.def
-      in: [T.string, T.array.of({verb: T.string, object: T.string})]
-      out: T.array.of({v1:T.string, o1:T.string, v2:T.string, o2:T.string, count:T.number}),
-      (filename, tuples) -> ...
+    word_in_set = T.def
+      in: [T.string]
+      out: T.array.exactly([true, T.number]).or T.array.exactly([false, T.string])
+      (word) ->
+        set = {"book":100, "chair":200, "dog":600, "what":"s"}
+        if word in _.keys(set)
+          [true, set[word]]
+        else
+          [false, "not in set"]
+
+If you call:
+
+    word_in_set "what"
+
+You'll get the error:
+
+    invalid output type
+	     need:TArray.exactly([true,TNumber])
+	     returned:[true,s]
 
 Inspired by contracts.coffee, among other projects
