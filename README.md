@@ -33,6 +33,7 @@ word_in_set = T.def
   in: [T.string]
   out: T.array.exactly([true, T.number]).or T.array.exactly([false, T.string])
   (word) ->
+    # There's a bug in the dataset...
     set = {"book":100, "chair":200, "dog":600, "what":"s"}
     if word in _.keys(set)
       [true, set[word]]
