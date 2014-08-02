@@ -12,6 +12,16 @@ How to use:
       out: T.number,
       (x,y) -> x + y
 
+Try to run something like:
+
+    add 3, "s"
+
+And you get:
+
+    invalid input type
+	     need: [TNumber,TNumber]
+	     given: [3,s]
+
 You can do more complex things:
 
     make_bigrams = T.def
@@ -19,4 +29,4 @@ You can do more complex things:
       out: T.array.of({v1:T.string, o1:T.string, v2:T.string, o2:T.string, count:T.number}),
       (filename, tuples) -> ...
 
-Inspired by contracts.coffee, among other things
+Inspired by contracts.coffee, among other projects

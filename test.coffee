@@ -5,7 +5,7 @@ _ = require 'underscore'
 
 # So add takes an Array of Numbers and returns a Number
 add = T.def
-  in: T.array.of(T.number)
+  in: [T.number, T.number]
   out: T.number,
   (x,y) -> x + y
 
