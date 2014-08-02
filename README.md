@@ -5,7 +5,6 @@ Some basic type checking for coffeescript (at runtime)
 
 How to use:
 
-***CS:***
 ```coffee
 T = require './type.coffee'
 
@@ -17,7 +16,6 @@ add = T.def
 
 Try to run something like:
 
-***CS:***
 ```coffee
 add 3, "s"
 ```
@@ -30,7 +28,6 @@ And you get:
 
 You can do more complex things:
 
-***CS:***
 ```coffee
 word_in_set = T.def
   in: [T.string]
@@ -45,7 +42,6 @@ word_in_set = T.def
 
 If you call:
 
-***CS:***
 ```coffee
 word_in_set "what"
 ```
