@@ -74,7 +74,7 @@ class TObject extends T
         else
           false
       @show: () -> "Object.has(#{T.show(sub)})"
-  @only: (sub) ->
+  @exactly: (sub) ->
     class extends TObject
       @is_type: (e) ->
         if super e
